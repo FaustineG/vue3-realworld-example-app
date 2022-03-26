@@ -1,18 +1,19 @@
 import { createRouter, createWebHashHistory, RouteParams } from 'vue-router'
 import Home from './pages/Home.vue'
-import { isAuthorized } from './store/user'
+import useUserStore from './store/useUserStore'
 
-export type AppRouteNames = 'global-feed'
-| 'my-feed'
-| 'tag'
-| 'article'
-| 'create-article'
-| 'edit-article'
-| 'login'
-| 'register'
-| 'profile'
-| 'profile-favorites'
-| 'settings'
+export type AppRouteNames =
+  | 'global-feed'
+  | 'my-feed'
+  | 'tag'
+  | 'article'
+  | 'create-article'
+  | 'edit-article'
+  | 'login'
+  | 'register'
+  | 'profile'
+  | 'profile-favorites'
+  | 'settings'
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -51,13 +52,19 @@ export const router = createRouter({
       name: 'login',
       path: '/login',
       component: () => import('./pages/Login.vue'),
-      beforeEnter: () => !isAuthorized.value,
+      beforeEnter: () => {
+        const { isAuthorized } = useUserStore()
+        return isAuthorized
+      },
     },
     {
       name: 'register',
       path: '/register',
       component: () => import('./pages/Register.vue'),
-      beforeEnter: () => !isAuthorized.value,
+      beforeEnter: () => {
+        const { isAuthorized } = useUserStore()
+        return isAuthorized
+      },
     },
     {
       name: 'profile',
@@ -77,7 +84,10 @@ export const router = createRouter({
   ],
 })
 
-export function routerPush (name: AppRouteNames, params?: RouteParams): ReturnType<typeof router.push> {
+export function routerPush (
+  name: AppRouteNames,
+  params?: RouteParams,
+): ReturnType<typeof router.push> {
   if (params !== undefined) {
     return router.push({
       name,
