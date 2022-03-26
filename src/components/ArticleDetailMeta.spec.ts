@@ -5,7 +5,7 @@ import { router } from 'src/router'
 import { deleteArticle } from 'src/services/article/deleteArticle'
 import { deleteFavoriteArticle, postFavoriteArticle } from 'src/services/article/favoriteArticle'
 import { deleteFollowProfile, postFollowProfile } from 'src/services/profile/followProfile'
-import { updateUser, user } from 'src/store/user'
+import useUserStore from 'src/store/useUserStore'
 import fixtures from 'src/utils/test/fixtures'
 import ArticleDetailMeta from './ArticleDetailMeta.vue'
 
@@ -15,7 +15,6 @@ jest.mock('src/services/article/favoriteArticle')
 
 const globalMountOptions: GlobalMountOptions = {
   plugins: [registerGlobalComponents, router],
-  mocks: { $store: user },
 }
 
 describe('# ArticleDetailMeta', () => {
@@ -33,6 +32,8 @@ describe('# ArticleDetailMeta', () => {
   const mockUnfavoriteArticle = deleteFavoriteArticle as jest.MockedFunction<typeof deleteFavoriteArticle>
 
   beforeEach(async () => {
+    const { updateUser } = useUserStore()
+
     mockFollowUser.mockResolvedValue({ isOk: () => true } as any)
     mockUnfollowUser.mockResolvedValue({ isOk: () => true } as any)
     mockFavoriteArticle.mockResolvedValue({ isOk: () => true, value: fixtures.article } as any)
@@ -52,6 +53,8 @@ describe('# ArticleDetailMeta', () => {
   })
 
   it('should display follow button when user not author', () => {
+    const { updateUser } = useUserStore()
+
     updateUser({ ...fixtures.user, username: 'user2' })
     const { queryByRole } = render(ArticleDetailMeta, {
       global: globalMountOptions,
@@ -63,6 +66,8 @@ describe('# ArticleDetailMeta', () => {
   })
 
   it('should not display follow button and edit button when user not logged', () => {
+    const { updateUser } = useUserStore()
+
     updateUser(null)
     const { queryByRole } = render(ArticleDetailMeta, {
       global: globalMountOptions,
@@ -85,6 +90,8 @@ describe('# ArticleDetailMeta', () => {
   })
 
   it('should call follow service when click follow button', async () => {
+    const { updateUser } = useUserStore()
+
     updateUser({ ...fixtures.user, username: 'user2' })
     const { getByRole } = render(ArticleDetailMeta, {
       global: globalMountOptions,
@@ -97,6 +104,8 @@ describe('# ArticleDetailMeta', () => {
   })
 
   it('should call unfollow service when click follow button and not followed author', async () => {
+    const { updateUser } = useUserStore()
+
     updateUser({ ...fixtures.user, username: 'user2' })
     const { getByRole } = render(ArticleDetailMeta, {
       global: globalMountOptions,
@@ -109,6 +118,8 @@ describe('# ArticleDetailMeta', () => {
   })
 
   it('should call favorite article service when click favorite button', async () => {
+    const { updateUser } = useUserStore()
+
     updateUser({ ...fixtures.user, username: 'user2' })
     const { getByRole } = render(ArticleDetailMeta, {
       global: globalMountOptions,
@@ -121,6 +132,8 @@ describe('# ArticleDetailMeta', () => {
   })
 
   it('should call favorite article service when click unfavorite button', async () => {
+    const { updateUser } = useUserStore()
+
     updateUser({ ...fixtures.user, username: 'user2' })
     const { getByRole } = render(ArticleDetailMeta, {
       global: globalMountOptions,
