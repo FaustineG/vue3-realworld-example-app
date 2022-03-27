@@ -4,7 +4,8 @@
     :tag="tag"
     :username="username"
   />
-
+  sortBy
+  {{ sortBy }}
   <div
     v-if="articlesDownloading"
     class="article-preview"
@@ -22,7 +23,7 @@
       v-for="(article, index) in articles"
       :key="article.slug"
       :article="article"
-      @update="newArticle => updateArticle(index, newArticle)"
+      @update="(newArticle) => updateArticle(index, newArticle)"
     />
 
     <AppPagination
@@ -34,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from '@vue/runtime-core'
 import { useArticles } from 'src/composable/useArticles'
 import AppPagination from './AppPagination.vue'
 import ArticlesListArticlePreview from './ArticlesListArticlePreview.vue'
@@ -49,8 +51,8 @@ const {
   changePage,
   tag,
   username,
+  sortBy,
 } = useArticles()
 
 await fetchArticles()
-
 </script>

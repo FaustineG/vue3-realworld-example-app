@@ -10,6 +10,8 @@ import createAsyncProcess from 'src/utils/create-async-process'
 import { computed, ComputedRef, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
+type SortingOption = 'date' | 'author' | 'tags'
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export function useArticles () {
   const { articlesType, tag, username, metaChanged } = useArticlesMeta()
@@ -17,6 +19,11 @@ export function useArticles () {
   const articles = ref<Article[]>([])
   const articlesCount = ref(0)
   const page = ref(1)
+  const sortBy = ref<SortingOption>('date')
+  const sortedArticles = computed(() =>
+  // TODO
+    articles.value.sort((a, b) => (a.author < b.author ? -1 : 1)),
+  )
 
   async function fetchArticles (): Promise<void> {
     articles.value = []
@@ -51,7 +58,8 @@ export function useArticles () {
     articles.value[index] = article
   }
 
-  const { active: articlesDownloading, run: runWrappedFetchArticles } = createAsyncProcess(fetchArticles)
+  const { active: articlesDownloading, run: runWrappedFetchArticles } =
+    createAsyncProcess(fetchArticles)
 
   watch(metaChanged, async () => {
     if (page.value !== 1) changePage(1)
@@ -63,29 +71,42 @@ export function useArticles () {
   return {
     fetchArticles: runWrappedFetchArticles,
     articlesDownloading,
-    articles,
+    articles: sortedArticles,
     articlesCount,
     page,
     changePage,
     updateArticle,
     tag,
     username,
+    sortBy,
   }
 }
 
-export type ArticlesType = 'global-feed' | 'my-feed' | 'tag-feed' | 'user-feed' | 'user-favorites-feed'
+export type ArticlesType =
+  | 'global-feed'
+  | 'my-feed'
+  | 'tag-feed'
+  | 'user-feed'
+  | 'user-favorites-feed'
 
-export const articlesTypes: ArticlesType[] = ['global-feed', 'my-feed', 'tag-feed', 'user-feed', 'user-favorites-feed']
+export const articlesTypes: ArticlesType[] = [
+  'global-feed',
+  'my-feed',
+  'tag-feed',
+  'user-feed',
+  'user-favorites-feed',
+]
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-export const isArticlesType = (type: any): type is ArticlesType => articlesTypes.includes(type)
+export const isArticlesType = (type: any): type is ArticlesType =>
+  articlesTypes.includes(type)
 
-const routeNameToArticlesType: Partial<Record<AppRouteNames, ArticlesType>> = ({
+const routeNameToArticlesType: Partial<Record<AppRouteNames, ArticlesType>> = {
   'global-feed': 'global-feed',
   'my-feed': 'my-feed',
   tag: 'tag-feed',
   profile: 'user-feed',
   'profile-favorites': 'user-favorites-feed',
-})
+}
 
 interface UseArticlesMetaReturn {
   tag: ComputedRef<string>
@@ -102,8 +123,9 @@ function useArticlesMeta (): UseArticlesMetaReturn {
 
   watch(
     () => route.name,
-    routeName => {
-      const possibleArticlesType = routeNameToArticlesType[routeName as AppRouteNames]
+    (routeName) => {
+      const possibleArticlesType =
+        routeNameToArticlesType[routeName as AppRouteNames]
       if (!isArticlesType(possibleArticlesType)) return
 
       articlesType.value = possibleArticlesType
@@ -113,7 +135,7 @@ function useArticlesMeta (): UseArticlesMetaReturn {
 
   watch(
     () => route.params.username,
-    usernameParam => {
+    (usernameParam) => {
       if (usernameParam !== username.value) {
         username.value = typeof usernameParam === 'string' ? usernameParam : ''
       }
@@ -123,7 +145,7 @@ function useArticlesMeta (): UseArticlesMetaReturn {
 
   watch(
     () => route.params.tag,
-    tagParam => {
+    (tagParam) => {
       if (tagParam !== tag.value) {
         tag.value = typeof tagParam === 'string' ? tagParam : ''
       }
@@ -135,6 +157,8 @@ function useArticlesMeta (): UseArticlesMetaReturn {
     tag: computed(() => tag.value),
     username: computed(() => username.value),
     articlesType: computed(() => articlesType.value),
-    metaChanged: computed(() => `${articlesType.value}-${username.value}-${tag.value}`),
+    metaChanged: computed(
+      () => `${articlesType.value}-${username.value}-${tag.value}`,
+    ),
   }
 }

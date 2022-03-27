@@ -33,6 +33,7 @@
               </template>
             </Suspense>
           </div>
+          <SortBy />
         </div>
       </div>
     </div>
@@ -42,4 +43,5 @@
 <script setup lang="ts">
 import ArticlesList from 'src/components/ArticlesList.vue'
 import PopularTags from 'src/components/PopularTags.vue'
+import SortBy from 'src/components/SortArticlesBy.vue'
 </script>
