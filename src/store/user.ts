@@ -18,20 +18,31 @@ const { getter, mutation } = createStore('user', STATE)
 
 export const user = getter('user', state => state.user)
 
-export const isAuthorized = getter('isAuthorized', () => checkAuthorization(user))
+export const isAuthorized = getter('isAuthorized', () =>
+  checkAuthorization(user),
+)
+export const isAdmin = getter(
+  'isAdmin',
+  () => user.value?.email.split('@')[1].split('.')[0] === 'zenika',
+)
 
-export const checkAuthorization = (user: ComputedRef<User | null>): user is ComputedRef<User> => {
+export const checkAuthorization = (
+  user: ComputedRef<User | null>,
+): user is ComputedRef<User> => {
   return user.value !== null
 }
 
-export const updateUser = mutation<User | null>('updateUser', (state, userData) => {
-  if (userData === undefined || userData === null) {
-    userStorage.remove()
-    request.deleteAuthorizationHeader()
-    state.user = null
-  } else {
-    userStorage.set(userData)
-    request.setAuthorizationHeader(userData.token)
-    state.user = userData
-  }
-})
+export const updateUser = mutation<User | null>(
+  'updateUser',
+  (state, userData) => {
+    if (userData === undefined || userData === null) {
+      userStorage.remove()
+      request.deleteAuthorizationHeader()
+      state.user = null
+    } else {
+      userStorage.set(userData)
+      request.setAuthorizationHeader(userData.token)
+      state.user = userData
+    }
+  },
+)

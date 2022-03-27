@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import type { AppRouteNames } from 'src/router'
-import { user } from 'src/store/user'
+import { isAdmin, user } from 'src/store/user'
 import { computed } from 'vue'
 import type { RouteParams } from 'vue-router'
 
@@ -43,11 +43,11 @@ interface NavLink {
   params?: Partial<RouteParams>
   title: string
   icon?: string
-  display: 'all' | 'anonym' | 'authorized'
+  display: 'all' | 'anonym' | 'authorized' | 'admin'
 }
 
 const username = computed(() => user.value?.username)
-const displayStatus = computed(() => username.value ? 'authorized' : 'anonym')
+const displayStatus = computed(() => username.value ? (isAdmin.value ? 'admin' : 'authorized') : 'anonym')
 
 const allNavLinks = computed<NavLink[]>(() => [
   {
@@ -64,6 +64,11 @@ const allNavLinks = computed<NavLink[]>(() => [
     name: 'register',
     title: 'Sign up',
     display: 'anonym',
+  },
+  {
+    name: 'newsletter',
+    title: 'Newsletter',
+    display: 'admin',
   },
   {
     name: 'create-article',
@@ -86,7 +91,12 @@ const allNavLinks = computed<NavLink[]>(() => [
 ])
 
 const navLinks = computed(() => allNavLinks.value.filter(
-  l => l.display === displayStatus.value || l.display === 'all',
+  l => {
+    if (displayStatus.value === 'admin') { return l.display === 'admin' || l.display === 'authorized' }
+    if (displayStatus.value === 'authorized') { return l.display === 'authorized' }
+    if (displayStatus.value === 'anonym') { return l.display === 'anonym' }
+    return l.display === 'all'
+  },
 ))
 
 </script>

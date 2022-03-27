@@ -6,7 +6,7 @@
           <h1 class="text-xs-center">
             Your Settings
           </h1>
-
+          {{ userType }}
           <form @submit.prevent="onSubmit">
             <fieldset>
               <fieldset class="form-group">
@@ -76,7 +76,7 @@
 <script setup lang="ts">
 import { routerPush } from 'src/router'
 import { putProfile, PutProfileForm } from 'src/services/profile/putProfile'
-import { checkAuthorization, updateUser, user } from 'src/store/user'
+import { checkAuthorization, isAdmin, updateUser, user } from 'src/store/user'
 import { computed, onMounted, reactive } from 'vue'
 
 const form: PutProfileForm = reactive({})
@@ -104,10 +104,11 @@ onMounted(async () => {
 
 const isButtonDisabled = computed(() => (
   form.image === user.value?.image &&
-      form.username === user.value?.username &&
-      form.bio === user.value?.bio &&
-      form.email === user.value?.email &&
-      !form.password
+  form.username === user.value?.username &&
+  form.bio === user.value?.bio &&
+  form.email === user.value?.email &&
+  !form.password
 ))
 
+const userType = computed(() => isAdmin.value ? "You're an admin user" : "You're a regular user")
 </script>
