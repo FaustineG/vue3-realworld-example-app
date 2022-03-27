@@ -10,13 +10,19 @@ import createAsyncProcess from 'src/utils/create-async-process'
 import { computed, ComputedRef, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
+// Put stateful refs outside of composable function so that there is only one instance of them,
+// and not a different instance each time the composable is called
+const articles = ref<Article[]>([])
+const articlesCount = ref(0)
+const page = ref(1)
+const searchTerm = ref('')
+const filteredArticles = computed<Article[]>(() =>
+  articles.value.filter((article) => article.title.includes(searchTerm.value)),
+)
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/explicit-function-return-type
 export function useArticles () {
   const { articlesType, tag, username, metaChanged } = useArticlesMeta()
-
-  const articles = ref<Article[]>([])
-  const articlesCount = ref(0)
-  const page = ref(1)
 
   async function fetchArticles (): Promise<void> {
     articles.value = []
@@ -63,13 +69,14 @@ export function useArticles () {
   return {
     fetchArticles: runWrappedFetchArticles,
     articlesDownloading,
-    articles,
+    articles: filteredArticles,
     articlesCount,
     page,
     changePage,
     updateArticle,
     tag,
     username,
+    searchTerm,
   }
 }
 

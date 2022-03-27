@@ -8,6 +8,8 @@
         conduit
       </AppLink>
 
+      <SearchBar />
+
       <ul class="nav navbar-nav pull-xs-right">
         <li
           v-for="link in navLinks"
@@ -37,6 +39,7 @@ import type { AppRouteNames } from 'src/router'
 import { user } from 'src/store/user'
 import { computed } from 'vue'
 import type { RouteParams } from 'vue-router'
+import SearchBar from './SearchBar.vue'
 
 interface NavLink {
   name: AppRouteNames
