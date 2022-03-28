@@ -1,7 +1,4 @@
-declare interface ArticleComment {
-  id: number
-  createdAt: string
-  updatedAt: string
-  body: string
-  author: Profile
-}
+import { components } from './api/schema.ts'
+type ArticleComment = components.schemas.Comment
+
+export { ArticleComment }

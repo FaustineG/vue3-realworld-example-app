@@ -1,15 +1,6 @@
-declare interface Profile {
-  username: string
-  bio: string
-  image: string
-  following: boolean
-}
+import { components } from './api/schema.ts'
 
-declare interface User {
-  id: number
-  email: string
-  username: string
-  bio: string | undefined
-  image: string | undefined
-  token: string
-}
+type Profile = components.schemas.Profile
+type User = components.schemas.User
+
+export { User, Profile }
