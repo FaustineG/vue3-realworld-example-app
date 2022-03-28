@@ -1,5 +1,6 @@
 import { routerPush } from 'src/router'
 import { deleteFavoriteArticle, postFavoriteArticle } from 'src/services/article/favoriteArticle'
+import { Article } from 'src/types'
 import type { AuthorizationError } from 'src/types/error'
 import createAsyncProcess from 'src/utils/create-async-process'
 import type { Either } from 'src/utils/either'

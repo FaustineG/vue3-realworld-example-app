@@ -41,6 +41,7 @@
 import { useProfile } from 'src/composable/useProfile'
 import { postComment } from 'src/services/comment/postComment'
 import { checkAuthorization, user } from 'src/store/user'
+import { ArticleComment } from 'src/types'
 import { computed, ref } from 'vue'
 
 interface Props {

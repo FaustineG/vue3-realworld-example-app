@@ -45,6 +45,7 @@
 <script setup lang="ts">
 import marked from 'src/plugins/marked'
 import { getArticle } from 'src/services/article/getArticle'
+import { Article } from 'src/types'
 import { computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import ArticleDetailMeta from './ArticleDetailMeta.vue'

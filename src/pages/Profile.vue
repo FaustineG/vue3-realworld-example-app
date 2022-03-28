@@ -69,6 +69,7 @@ import ArticlesList from 'src/components/ArticlesList.vue'
 import { useFollow } from 'src/composable/useFollowProfile'
 import { useProfile } from 'src/composable/useProfile'
 import { checkAuthorization, user } from 'src/store/user'
+import { Profile } from 'src/types/user'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 

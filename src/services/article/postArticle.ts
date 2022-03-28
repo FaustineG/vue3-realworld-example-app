@@ -1,3 +1,4 @@
+import { Article } from 'src/types'
 import { request } from '../index'
 
 interface PostArticleForm {

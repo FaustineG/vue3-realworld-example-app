@@ -1,3 +1,4 @@
+import { User } from 'src/types'
 import type { ValidationError } from 'src/types/error'
 import { Either, fail, success } from 'src/utils/either'
 import { mapValidationResponse } from 'src/utils/map-checkable-response'

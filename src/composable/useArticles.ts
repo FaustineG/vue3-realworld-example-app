@@ -6,6 +6,7 @@ import {
   getFeeds,
   getProfileArticles,
 } from 'src/services/article/getArticles'
+import { Article } from 'src/types'
 import createAsyncProcess from 'src/utils/create-async-process'
 import { computed, ComputedRef, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'

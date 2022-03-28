@@ -1,3 +1,4 @@
+import { User } from 'src/types'
 import { request } from '../index'
 
 export interface PutProfileForm {

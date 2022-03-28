@@ -1,4 +1,5 @@
 import { getProfile } from 'src/services/profile/getProfile'
+import { Profile } from 'src/types/user'
 import { ComputedRef, ref, watch } from 'vue'
 
 interface UseProfileProps {

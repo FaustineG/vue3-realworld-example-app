@@ -12,12 +12,14 @@
     "test:unit": "jest",
     "test:e2e": "yarn build && concurrently -rk -s first \"yarn serve\" \"cypress run -c baseUrl=http://localhost:5000\"",
     "test:e2e:ci": "cypress run -C cypress.prod.json",
-    "test": "yarn test:unit && yarn test:e2e"
+    "test": "yarn test:unit && yarn test:e2e",
+    "generate-types": "npx openapi-typescript src/api/schema.yml --output src/api/schema.ts"
   },
   "dependencies": {
     "@harlem/core": "^2.2.3",
     "insane": "^2.6.2",
     "marked": "^4.0.12",
+    "openapi-typescript": "^5.2.0",
     "vue": "^3.2.30",
     "vue-router": "^4.0.12"
   },
