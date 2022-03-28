@@ -68,6 +68,7 @@
 <script setup lang="ts">
 import { getArticle } from 'src/services/article/getArticle'
 import { postArticle, putArticle } from 'src/services/article/postArticle'
+import { Article } from 'src/types'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 

@@ -1,3 +1,4 @@
+import { ArticleComment } from 'src/types'
 import { request } from '../index'
 
 export function deleteComment (slug: string, commentId: number): Promise<Record<string, unknown>> {

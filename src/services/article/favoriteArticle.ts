@@ -1,3 +1,4 @@
+import { Article } from 'src/types'
 import type { AuthorizationError } from 'src/types/error'
 import { Either, fail, success } from 'src/utils/either'
 import { mapAuthorizationResponse } from 'src/utils/map-checkable-response'

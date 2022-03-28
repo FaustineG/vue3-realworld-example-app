@@ -1,5 +1,6 @@
 import { routerPush } from 'src/router'
 import { deleteFollowProfile, postFollowProfile } from 'src/services/profile/followProfile'
+import { Profile } from 'src/types'
 import type { AuthorizationError } from 'src/types/error'
 import createAsyncProcess from 'src/utils/create-async-process'
 import type { Either } from 'src/utils/either'

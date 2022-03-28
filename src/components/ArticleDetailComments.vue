@@ -17,6 +17,7 @@
 import { getCommentsByArticle } from 'src/services/comment/getComments'
 import { deleteComment } from 'src/services/comment/postComment'
 import { user } from 'src/store/user'
+import { ArticleComment } from 'src/types'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import ArticleDetailComment from './ArticleDetailComment.vue'

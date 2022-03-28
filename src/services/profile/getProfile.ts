@@ -1,3 +1,4 @@
+import { Profile } from 'src/types'
 import { request } from '../index'
 
 export function getProfile (username: string): Promise<Profile> {

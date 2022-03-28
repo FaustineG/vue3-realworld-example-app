@@ -45,6 +45,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { ArticleComment } from '../types'
 
 interface Props {
   comment: ArticleComment

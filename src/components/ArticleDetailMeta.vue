@@ -69,6 +69,7 @@ import { useFollow } from 'src/composable/useFollowProfile'
 import { routerPush } from 'src/router'
 import { deleteArticle } from 'src/services/article/deleteArticle'
 import { checkAuthorization, user } from 'src/store/user'
+import { Article, Profile } from 'src/types'
 import { computed, toRefs } from 'vue'
 
 interface Props {
