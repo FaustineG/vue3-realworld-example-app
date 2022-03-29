@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteParams } from 'vue-router'
 import Home from './pages/Home.vue'
-import { isAuthorized } from './store/user'
+import { isAdmin, isAuthorized } from './store/user'
 
 export type AppRouteNames = 'global-feed'
 | 'my-feed'
@@ -13,6 +13,7 @@ export type AppRouteNames = 'global-feed'
 | 'profile'
 | 'profile-favorites'
 | 'settings'
+| 'newsletter'
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -73,6 +74,13 @@ export const router = createRouter({
       name: 'settings',
       path: '/settings',
       component: () => import('./pages/Settings.vue'),
+    },
+    {
+      name: 'newsletter',
+      path: '/newsletter',
+      component: () => import('./pages/NewsletterConfig.vue'),
+      beforeEnter: () => isAdmin.value,
+
     },
   ],
 })
