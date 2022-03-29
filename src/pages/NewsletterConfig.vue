@@ -19,23 +19,7 @@
         />
       </fieldset>
       <fieldset class="form-group">
-        <div
-          v-for="email in form.mailingList"
-          :key="email"
-          class="email-line"
-        >
-          <p>{{ email }}</p>
-          <button @click="() => removeEmail(email)">
-            <i class="ion-trash-a" />
-          </button>
-        </div>
-        <input
-          v-model="newEmail"
-          type="text"
-          class="form-control"
-          placeholder="Email"
-          @keyup.enter="addNewEmail"
-        >
+        <EmailList v-model:mailingList="form.mailingList" />
       </fieldset>
     </fieldset>
     <button @click="save">
@@ -45,34 +29,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { useNewsletterStore } from '../store/newsletter'
+import EmailList from 'src/components/EmailList.vue'
 
-interface NewsletterConfigForm {
-    title: string,
-    content: string,
-    mailingList: string[]
-}
+const form = useNewsletterStore()
 
-const form: NewsletterConfigForm = reactive({
-  title: '',
-  content: '',
-  mailingList: [],
-})
-
-const newEmail = ref('')
-const addNewEmail = () => {
-  if (!form.mailingList.includes(newEmail.value)) { form.mailingList.push(newEmail.value) }
-  newEmail.value = ''
-}
-const removeEmail = (email: string) => {
-  form.mailingList = form.mailingList.filter(e => e !== email)
-}
 const save = () => {
-  console.log('On save', form)
-  form.content = ''
-  form.title = ''
-  form.mailingList = []
+  form.saveForm()
 }
+
 </script>
 
 <style>
