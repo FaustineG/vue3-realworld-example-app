@@ -1,58 +1,60 @@
 <template>
   <div class="newsletter-page">
     <h2>Create your blog newsletter</h2>
-    <fieldset>
-      <fieldset class="form-group">
-        <input
-          v-model="form.title"
-          type="text"
-          class="form-control"
-          placeholder="Title"
-        >
-      </fieldset>
-      <fieldset class="form-group">
-        <textarea
-          v-model="form.content"
-          type="text"
-          class="form-control"
-          placeholder="Contenu"
-        />
-      </fieldset>
-      <fieldset class="form-group">
-        <EmailList v-model:mailingList="form.mailingList" />
-      </fieldset>
-    </fieldset>
-    <button @click="save">
-      Save
-    </button>
+    <Form
+      class="newsletter-form"
+      :validation-schema="validationSchema"
+      @submit="save"
+    >
+      <Field
+        v-model="formStore.title"
+        name="title"
+        :validate-on-change="true"
+      />
+      <ErrorMessage name="title" />
+      <Field
+        v-model="formStore.content"
+        name="content"
+        as="textarea"
+        :validate-on-change="true"
+      />
+      <ErrorMessage name="content" />
+      <EmailList v-model:mailingList="formStore.mailingList" />
+      <ErrorMessage name="mailingList" />
+      <button type="submit">
+        Save
+      </button>
+    </Form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useNewsletterStore } from '../store/newsletter'
 import EmailList from 'src/components/EmailList.vue'
+import { Form, Field, ErrorMessage } from 'vee-validate'
 
-const form = useNewsletterStore()
+const validationSchema = {
+  title: 'required|alpha',
+  content: 'required|alpha',
+  mailingList: '',
+}
+
+const formStore = useNewsletterStore()
 
 const save = () => {
-  form.saveForm()
+  formStore.saveForm()
 }
 
 </script>
 
 <style>
 .newsletter-page {
-    padding: 10%;
+  padding: 10%;
 }
 
-.email-line {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.email-line p{
-    width: 200px;
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>

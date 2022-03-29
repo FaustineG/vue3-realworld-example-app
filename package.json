@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "@harlem/core": "^2.2.3",
+    "@vee-validate/rules": "^4.5.10",
     "insane": "^2.6.2",
     "marked": "^4.0.12",
     "pinia": "^2.0.12",
+    "vee-validate": "^4.5.10",
     "vue": "^3.2.30",
     "vue-router": "^4.0.12"
   },
